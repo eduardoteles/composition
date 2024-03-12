@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Aula 120424</title>
+	<style>
+	.realizado {
+		text-decoration: line-through;
+		color: grey;
+	}
+	
+	.prioritaria {
+		color: red;
+	}
+	</style>
+</head>
+
+<body>
+	<div id="app">
+		<h2>
+			Lista de Tarefas
+			<button @click="edit=!edit">editar</button>
+		</h2>
+		<input type="text" v-model="texto" @keyup.enter="insereTarefa(texto)">
+		<button @click="insereTarefa(texto)">Inserir</button>
+		<ul v-if="!edit">
+			<li v-for="item in tarefas" :class="{realizado: item.realizada, prioritaria: item.prioritario}">
+				{{ item.nome }}</li>
+		</ul>
+		<ul v-else>
+			<li v-for="item in tarefas">
+				<input type="text" v-model="item.nome">
+				<input type="checkbox" v-model="item.prioritario">prioritario
+				<input type="checkbox" v-model="item.realizada">realizada
+			</li>
+		</ul>	
+	</div>	
+
+
+	<script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+	<script>
+	Vue.createApp({
+	    setup() {
+	        const texto = Vue.ref('Introduza a tarefa');
+	        const edit = Vue.ref(false);
+	        const tarefas = Vue.ref([
+	            {nome: 'Exercício de HTML', prioritario: false, realizada: false},
+	            {nome: 'Exercício de CSS', prioritario: false, realizada: false},
+	            {nome: 'Exercício de Javascript', prioritario: false, realizada: false},
+	            {nome: 'Exercício de Vue JS', prioritario: false, realizada: false},
+	            {nome: 'Projeto', prioritario: false, realizada: false}
+	        ])
+	
+	        const insereTarefa = (item)=>{
+	            tarefas.value.push({
+	                nome: item,
+	                prioritario: false,
+	                realizada: false
+	            });
+	        }      
+	        
+	        // Return an object exposing to the template
+	        return {
+	            texto,
+	            edit,
+	            tarefas,
+	            insereTarefa
+	        };
+	    }
+	}).mount('#app')
+	</script>
+</body>
+
+</html>
